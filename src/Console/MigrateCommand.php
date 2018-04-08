@@ -66,7 +66,7 @@ class MigrateCommand extends BaseCommand
         // been found, migrate.
         $users = $this->laravel->make(
             $this->laravel['config']['auth.providers.users.model']
-        )->all();
+        )->whereNotNull('tenant')->get();
 
         foreach ($users as $user) {
             $this->laravel['config']['database.connections.mysql.database'] = $user->tenant;
