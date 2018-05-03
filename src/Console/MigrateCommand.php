@@ -71,7 +71,7 @@ class MigrateCommand extends BaseCommand
         foreach ($users as $user) {
             $this->laravel['config']['database.connections.mysql.database'] = $user->tenant;
 
-            $this->output->write(sprintf('<info>Migrating %s:</info> ', $user->name));
+            $this->output->writeln(sprintf('<info>Migrating %s:</info> ', $user->name));
 
             $this->prepareDatabase('mysql');
 
