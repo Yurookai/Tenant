@@ -5,6 +5,7 @@ namespace Flood\Tenant\Providers;
 use Flood\Tenant\Console\SeedCommand;
 use Illuminate\Support\ServiceProvider;
 use Flood\Tenant\Console\MigrateCommand;
+use Flood\Tenant\Console\RollbackCommand;
 use Illuminate\Contracts\Foundation\Application;
 
 class TenantServiceProvider extends ServiceProvider
@@ -25,11 +26,16 @@ class TenantServiceProvider extends ServiceProvider
             return new MigrateCommand($app->make('migrator'));
         });
 
+        $this->app->singleton(RollbackCommand::class, function (Application $app) {
+            return new RollbackCommand($app->make('migrator'));
+        });
+
         $this->app->singleton(SeedCommand::class, function (Application $app) {
             return new SeedCommand($app->make('db'));
         });
 
         $this->commands(MigrateCommand::class);
+        $this->commands(RollbackCommand::class);
         $this->commands(SeedCommand::class);
     }
 }
