@@ -60,7 +60,7 @@ class MigrateCommand extends BaseCommand
 
         // Migrate or install the general database.
         $this->call(
-            'migrate', ['--database' => 'general']
+            'migrate', ['--database' => 'general', '--force' => true]
         );
 
         // Get the users from the base tenant database. For each user that has
