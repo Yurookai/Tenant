@@ -81,6 +81,7 @@ class MigrateCommand extends BaseCommand
             // so that migrations may be run for any path within the applications.
             $this->migrator->run([$this->laravel->databasePath() . '/migrations/tenant'], [
                 'pretend' => $this->option('pretend'),
+                'force' => $this->option('force'),
                 'step' => $this->option('step'),
             ]);
 
