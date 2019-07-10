@@ -8,6 +8,7 @@ use Flood\Tenant\Console\MigrateCommand;
 use Flood\Tenant\Console\RollbackCommand;
 use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Contracts\Foundation\Application;
+use Flood\Tenant\Console\RunCommand;
 
 class TenantServiceProvider extends ServiceProvider
 {
@@ -72,8 +73,13 @@ class TenantServiceProvider extends ServiceProvider
             return new SeedCommand($app->make('db'));
         });
 
+        $this->app->singleton(RunCommand::class, function (Application $app) {
+            return new RunCommand();
+        });
+
         $this->commands(MigrateCommand::class);
         $this->commands(RollbackCommand::class);
         $this->commands(SeedCommand::class);
+        $this->commands(RunCommand::class);
     }
 }
