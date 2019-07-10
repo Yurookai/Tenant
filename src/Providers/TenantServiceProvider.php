@@ -53,7 +53,7 @@ class TenantServiceProvider extends ServiceProvider
                 $this->app['config']['database.default'] = $identifier;
 
                 $this->app['db']->setDefaultConnection($identifier);
-                $this->app['db']->reconnect('mysql');
+                $this->app['db']->disconnect('mysql');
                 $this->app['db']->reconnect($identifier);
             }
         });
