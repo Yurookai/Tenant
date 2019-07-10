@@ -49,6 +49,7 @@ class AutoConnectToTenant
             $this->config['database.default'] = $connection;
 
             // Reconnect to the set database.
+            $this->database->setDefaultConnection($connection);
             $this->database->reconnect('mysql');
             $this->database->reconnect($connection);
         }
