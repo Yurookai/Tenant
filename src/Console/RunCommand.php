@@ -68,9 +68,20 @@ class RunCommand extends Command
             $app = $this->getLaravel();
 
             foreach ($users as $user) {
-                $app['config']['database.connections.mysql.database'] = $user->tenant;
 
-                $app['db']->reconnect('mysql');
+                $this->app['config']['database.connections.' . ($identifier = 'mysql:'.$user->id.':'.$user->tenant)] = array_merge(
+                    $this->app['config']['database.connections.mysql'],
+                    [
+                        'database' => $user->tenant,
+                    ]
+                );
+
+                $this->app['config']['database.connections.mysql.database'] = $user->tenant;
+                $this->app['config']['database.default'] = $identifier;
+
+                $this->app['db']->setDefaultConnection($identifier);
+                $this->app['db']->reconnect('mysql');
+                $this->app['db']->reconnect($identifier);
 
                 $exitCodes[] = $this->call(
                     $this->argument('run'),
