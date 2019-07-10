@@ -69,19 +69,19 @@ class RunCommand extends Command
 
             foreach ($users as $user) {
 
-                $this->app['config']['database.connections.' . ($identifier = 'mysql:'.$user->id.':'.$user->tenant)] = array_merge(
-                    $this->app['config']['database.connections.mysql'],
+                $app['config']['database.connections.' . ($identifier = 'mysql:'.$user->id.':'.$user->tenant)] = array_merge(
+                    $app['config']['database.connections.mysql'],
                     [
                         'database' => $user->tenant,
                     ]
                 );
 
-                $this->app['config']['database.connections.mysql.database'] = $user->tenant;
-                $this->app['config']['database.default'] = $identifier;
+                $app['config']['database.connections.mysql.database'] = $user->tenant;
+                $app['config']['database.default'] = $identifier;
 
-                $this->app['db']->setDefaultConnection($identifier);
-                $this->app['db']->disconnect('mysql');
-                $this->app['db']->reconnect($identifier);
+                $app['db']->setDefaultConnection($identifier);
+                $app['db']->disconnect('mysql');
+                $app['db']->reconnect($identifier);
 
                 $exitCodes[] = $this->call(
                     $this->argument('run'),
