@@ -9,6 +9,7 @@ use Flood\Tenant\Console\RollbackCommand;
 use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Contracts\Foundation\Application;
 use Flood\Tenant\Console\RunCommand;
+use Flood\Tenant\Tenant;
 
 class TenantServiceProvider extends ServiceProvider
 {
@@ -29,7 +30,6 @@ class TenantServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
         $this->app['queue']->createPayloadUsing(function (string $connection, string $queue = null, array $payload = []) {
             return [
                 'database' => $this->app['db']->getDefaultConnection(),
@@ -73,8 +73,12 @@ class TenantServiceProvider extends ServiceProvider
             return new SeedCommand($app->make('db'));
         });
 
-        $this->app->singleton(RunCommand::class, function (Application $app) {
+        $this->app->singleton(RunCommand::class, function () {
             return new RunCommand();
+        });
+
+        $this->app->singleton(Tenant::class, function () {
+            return new Tenant();
         });
 
         $this->commands(MigrateCommand::class);
