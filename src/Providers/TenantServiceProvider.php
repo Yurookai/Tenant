@@ -77,8 +77,8 @@ class TenantServiceProvider extends ServiceProvider
             return new RunCommand();
         });
 
-        $this->app->singleton(Tenant::class, function () {
-            return new Tenant();
+        $this->app->singleton(Tenant::class, function (Application $app) {
+            return new Tenant($app->make('config'), $app->make('db'));
         });
 
         $this->commands(MigrateCommand::class);

@@ -6,6 +6,12 @@ use App\User;
 
 class Tenant
 {
+    public function __construct($config, $db)
+    {
+        $this->config = $config;
+        $this->database = $db;
+    }
+
     /**
      * Bootstrap any application services.
      *
